@@ -1,17 +1,44 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  font-family: 'Arial', sans-serif;
+}
+
+.flexContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#controlPanel {
+  padding: 10px;
+}
+
+#controlPanel > button {
+  margin: 5px;
+  padding: 6px 12px;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 4px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 16px;
+}
+
+#controlPanel > button:hover {
+  color: #F56960;
+}
+
+#controlPanel > button:disabled {
+  color: gray;
 }
 
 #board td{
-  border: 1px solid #ddd;
-  width: 15px;
-  height: 15px;
+  border: 1px solid #DDD;
+  width: 20px;
+  height: 20px;
 }
 
 td.alive {
-  background-color: #8CC8DD;
+  background-color: #F56960
 }
 
 td.dead {

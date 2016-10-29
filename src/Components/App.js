@@ -3,7 +3,7 @@ import React from 'react';
 export default class App extends React.Component {
   render () {
     return (
-      <div>
+      <div className="flexContainer">
         <h1>Game of Life</h1>
         <table id="board">
           <tbody>
@@ -25,7 +25,7 @@ export default class App extends React.Component {
             }
           </tbody>
         </table>
-        <div>
+        <div id="controlPanel">
           <button disabled={this.props.isAutoPlaying} onClick={this.props.setRandomBoard}>Set random board</button>
           <button disabled={this.props.isAutoPlaying} onClick={this.props.step}>Step</button>
           <button disabled={this.props.isAutoPlaying} onClick={this.props.startAutoplay}>Start autoplay</button>
