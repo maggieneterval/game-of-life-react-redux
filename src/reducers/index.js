@@ -1,37 +1,42 @@
-import { TOGGLE_CELL } from '../actions/action-constants';
+import { TOGGLE_CELL, STEP, SET_RANDOM_BOARD, CLEAR_BOARD, START_AUTOPLAY, STOP_AUTOPLAY } from '../actions/action-constants';
+import { combineReducers } from 'redux';
+import { generateBoard, toggleSingle, step } from '../utilities';
+import _ from 'lodash';
 
-function generateBoard (length, width) {
-  const matrix = [];
-  for (let i = 0; i < length; i++) {
-    let row = [];
-    for (let j = 0; j < width; j++) {
-      row.push('dead');
-    }
-    matrix.push(row);
-  }
-  return matrix;
-}
+const length = 25;
+const width = 25;
+const initialBoard = generateBoard(length, width);
 
-const initialState = {
-  board: generateBoard(10, 10)
-};
-
-export default (state=initialState, action) => {
-
-  //initialize new board to avoid mutation
-  const newBoard = state.board;
-
-  //for toggling individual cells:
-  let prevStatus;
-  let newStatus;
-
+const board = (state=initialBoard, action) => {
+  const nextBoard = _.cloneDeep(state);
   switch (action.type) {
     case TOGGLE_CELL:
-      prevStatus = newBoard[action.x][action.y];
-      newStatus = prevStatus === 'dead' ? 'alive' : 'dead';
-      newBoard[action.x].splice(action.y, 1, newStatus);
-      return Object.assign({}, state, {board: newBoard});
+      return toggleSingle(nextBoard, action.x, action.y);
+    case SET_RANDOM_BOARD:
+      return generateBoard(length, width, true);
+    case STEP:
+      return step(state);
+    case CLEAR_BOARD:
+      return generateBoard(length, width);
     default:
       return state;
   }
 };
+
+const isAutoPlaying = (state=false, action) => {
+  switch (action.type) {
+    case START_AUTOPLAY:
+      return true;
+    case STOP_AUTOPLAY:
+      return false;
+    default:
+      return state;
+  }
+};
+
+const rootReducer = combineReducers({
+  board,
+  isAutoPlaying
+});
+
+export default rootReducer;
